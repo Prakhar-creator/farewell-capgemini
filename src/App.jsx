@@ -433,7 +433,7 @@ function App() {
 
             <a
               className="primary-btn recommendation-btn"
-              href="https://www.linkedin.com/in/prakhar-mishra-393027194/detail/recommendation/write/"
+              href="https://www.linkedin.com/in/prakhar-mishra-393027194/details/recommendations/edit/write/?profileFormEntryPoint=Detail"
               target="_blank"
               rel="noreferrer"
             >
