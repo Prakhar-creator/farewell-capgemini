@@ -1,3 +1,13 @@
+import nodemailer from 'nodemailer'
+
+const escapeHtml = (value) =>
+  String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+
 export async function handler(event) {
   if (event.httpMethod !== 'POST') {
     return {
@@ -7,64 +17,57 @@ export async function handler(event) {
   }
 
   try {
-    const { name, message, to } = JSON.parse(event.body || '{}')
+    const { name, message } = JSON.parse(event.body || '{}')
 
-    if (!name || !message || !to) {
+    if (!name || !message) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ message: 'Name, message, and recipient are required.' })
+        body: JSON.stringify({ message: 'Name and message are required.' })
       }
     }
 
-    const apiKey = process.env.RESEND_API_KEY
-    const fromEmail = process.env.RESEND_FROM_EMAIL
+    const gmailUser = process.env.GMAIL_USER
+    const gmailPassword = process.env.GMAIL_APP_PASSWORD
+    const toEmail = process.env.TO_EMAIL || gmailUser
 
-    if (!apiKey || !fromEmail) {
+    if (!gmailUser || !gmailPassword) {
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Email service is not configured.' })
       }
     }
 
-    const resendResponse = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        from: fromEmail,
-        to: [to],
-        subject: `New farewell message from ${name}`,
-        reply_to: to,
-        html: `
-          <p><strong>From:</strong> ${name}</p>
-          <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, '<br />')}</p>
-        `
-      })
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: gmailUser,
+        // Google displays app passwords with spaces; SMTP expects them without
+        pass: gmailPassword.replace(/\s+/g, '')
+      }
     })
 
-    const resendData = await resendResponse.json()
-
-    if (!resendResponse.ok) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({
-          message: resendData?.message || 'Failed to send email via Resend.'
-        })
-      }
-    }
+    const info = await transporter.sendMail({
+      from: `"Farewell Site" <${gmailUser}>`,
+      to: toEmail,
+      subject: `New farewell message from ${String(name).slice(0, 100)}`,
+      text: `From: ${name}\n\nMessage:\n${message}`,
+      html: `
+        <p><strong>From:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Message:</strong></p>
+        <p>${escapeHtml(message).replace(/\n/g, '<br />')}</p>
+      `
+    })
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ success: true, data: resendData })
+      body: JSON.stringify({ success: true, id: info.messageId })
     }
   } catch (error) {
+    console.error('send-message failed', error)
     return {
       statusCode: 500,
       body: JSON.stringify({
-        message: error.message || 'Unexpected server error.'
+        message: 'Failed to send email.'
       })
     }
   }
