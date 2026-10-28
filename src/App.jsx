@@ -151,8 +151,6 @@ function App() {
   const [formData, setFormData] = useState({ name: '', message: '' })
   const [submitStatus, setSubmitStatus] = useState({ type: 'idle', message: '' })
 
-  const formRecipient = 'prakharmishra288@gmail.com'
-
   const handleChange = (event) => {
     const { name, value } = event.target
     setFormData((previous) => ({ ...previous, [name]: value }))
@@ -179,8 +177,7 @@ function App() {
         },
         body: JSON.stringify({
           name,
-          message,
-          to: formRecipient
+          message
         })
       })
 
