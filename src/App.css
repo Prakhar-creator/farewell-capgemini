@@ -24,12 +24,14 @@
 .brand-mark {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  flex-shrink: 0;
+  padding: 6px 14px;
   border-radius: 10px;
   background: linear-gradient(135deg, #f9a8d4, #c4b5fd);
   color: #4c1d95;
   font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 main {
