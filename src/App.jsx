@@ -137,7 +137,7 @@ function App() {
 
   const highlights = ['Mentorship', 'Growth', 'Collaboration', 'Memories']
 
-  const [guestMessages, setGuestMessages] = useState([
+  const guestMessages = [
     {
       name: 'A well-wisher',
       message: 'Wishing you all the very best in the next chapter. Stay kind, stay curious, and keep shining.'
@@ -146,7 +146,7 @@ function App() {
       name: 'Team Member',
       message: 'Thank you for the memories, the support, and the energy you brought to everyone around you.'
     }
-  ])
+  ]
 
   const [formData, setFormData] = useState({ name: '', message: '' })
   const [submitStatus, setSubmitStatus] = useState({ type: 'idle', message: '' })
@@ -187,10 +187,6 @@ function App() {
         throw new Error(payload.message || 'Failed to send message')
       }
 
-      setGuestMessages((previous) => [
-        { name, message },
-        ...previous
-      ])
       setFormData({ name: '', message: '' })
       setSubmitStatus({ type: 'success', message: 'Your message was sent successfully.' })
     } catch (error) {
@@ -411,7 +407,7 @@ function App() {
               )}
             </form>
 
-            <div className="guestbook-feed" aria-live="polite">
+            <div className="guestbook-feed">
               {guestMessages.map((message) => (
                 <article className="guestbook-card" key={`${message.name}-${message.message}`}>
                   <span className="guestbook-author">{message.name}</span>
