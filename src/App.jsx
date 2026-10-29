@@ -106,6 +106,18 @@ function App() {
       message:'Hello Bhaiya, aap most of the time ek bohot hi ache mentor rahe ho, aapne mujhe bohot guide kiya hai, aap approachable bhi bohot ho, Aapke saath bas kaam karna reh gya, in any case aap apni skills mein expert ho and I know aap bohot hi expert banoge, All the best and do the best until we meet again'
     },
     {
+      name:'Shoyeb Bhaiya',
+      message:'Hello Bhaiya, Thank you for all the supoort and help, you have always guided me well and helped me to focus on things that really matter in corporate life, as an expeirenced professional you have taught me how to manage myself with work pressure and also do all kinds of fun activity to enjoy in life, Wishing you all the best and Once Again Thank you for making my journey Beautiful.'
+    },
+    {
+      name:'Sowmya',
+      message:'Hi Sowmya, I know we have not worked much yet but you seemed to be quite professionally ethical and always available in times of need, be it in terms of any technical or non-technical issue, most humble and supportive colleague throughtout the team, I hope you keep your this trait up and excel in whatever role you get, Thank you for all the support and help, Wishing you all the best.'
+    },
+    {
+      name:'Harshini',
+      message:'Hi Harshini, it been a great pleasure to work with you, you have been a great sort of support and guidance, I really miss the bangalore office meetings room, Thank you for all the support and help, Wishing you all the best.'
+    },
+    {
       name:'Sravani',
       message:'Honestly, you are the best teammate anybody can have, your support and guidance is something which is meant to be nurtured and I hope you will stay the same, you have helped me ways i cannot express, thank you for being there, and i hope you will continue to grow in the best ways, All the best mate.'
     },
